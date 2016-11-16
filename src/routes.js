@@ -33,4 +33,14 @@ router.get('/:name', function(req, res, next) {
   })
 })
 
+router.get('/:server/:name', function(req, res, next){
+  res.render('index', function(err, html){
+    if (err) {
+      next(err)
+    } else {
+      res.send(html);
+    }
+  })
+})
+
 module.exports = router;
