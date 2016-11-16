@@ -13,6 +13,7 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(require('webpack-hot-middleware')(compiler));
 
+// 路由
 app.use('/', routes);
 
 app.listen(8080, function(err) {

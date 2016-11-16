@@ -8,13 +8,29 @@ router.use(function timeLog(req, res, next) {
   next()
 })
 
-// 定义网站主页的路由
-router.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-// 定义 about 页面的路由
-router.get('/about', function(req, res) {
-  res.sendFile(path.join(__dirname, 'about.html'));
-});
+// 定义 html 页面的路由
+router.get('/:name', function(req, res, next) {
+  var options = {
+    root: path.join(__dirname, '../'),
+    dotfiles: 'deny',
+    headers: {
+      'x-timestamp': Date.now(),
+      'x-sent': true
+    }
+  }
+
+  var filename = req.params.name
+
+  res.sendFile(filename, options, function(err){
+
+    if (err) {
+      console.log(err)
+      res.status(err.status).end()
+    } else {
+      console.log('Sent: ', filename)
+    }
+
+  })
+})
 
 module.exports = router;
