@@ -1,6 +1,6 @@
 var express = require('express')
 var router = express.Router()
-var path = require('path')
+var User = require('../models/user.js')
 
 // 该路由使用的中间件
 router.use(function timeLog(req, res, next) {
@@ -8,38 +8,23 @@ router.use(function timeLog(req, res, next) {
   next()
 })
 
-// 定义 html 页面的路由
-router.get('/:name', function(req, res, next) {
-  var options = {
-    root: path.join(__dirname, '../'),
-    dotfiles: 'deny',
-    index: false,
-    setHeaders: function(res, path, stat) {
-      res.set({
-        'x-timestamp': Date.now(),
-        'x-sent': true
-      })
-    }
-  }
+router.get('/register', function(req, res, next){
+  User.count().exec((err, count) => {
+    if(count > 0) {
 
-  var filename = req.params.name
-
-  console.log(filename)
-
-  res.sendFile(filename, options, function(err){
-
-    if (err) {
-      console.log(err)
-      res.status(err.status).end()
     } else {
-      console.log('Sent: ', filename)
+      const user1 = new User({ name: 'Admin1', password: 'Hello MERN', cuid: 'cikqgkv4q01ck7453ualdn3hd' });
+      const user2 = new User({ name: 'Admin2', password: 'Lorem Ipsum', cuid: 'cikqgkv4q01ck7453ualdn3hf' });
+
+      User.create([user1, user2], (error) => {
+        if (!error) {
+          // console.log('ready to go....');
+        }else{
+          console.log('add sucess');
+        }
+      });
     }
-
   })
-})
-
-router.get('/jade/:name', function(req, res, next){
-  res.render(req.params.name, {pageTitle: 'Page Title', foo: 1 })
 })
 
 // 错误处理

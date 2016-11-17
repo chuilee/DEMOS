@@ -1,12 +1,14 @@
 var path = require('path')
 var webpack = require('webpack')
-var express = require('express')
 var config = require('./webpack.config')
-var routes = require('./server/routes/routes.js')
 
+var serverCfg = require('./server/config.js')
+var express = require('express')
+var routes = require('./server/routes/routes.js')
 var favicon = require('serve-favicon')
 var logger = require('morgan')
 var errorHandler = require('errorhandler')
+var mongoose = require('mongoose')
 
 var app = express();
 var compiler = webpack(config);
@@ -35,10 +37,14 @@ if ('development' == app.get('env')) {
   app.use(errorHandler())
 }
 
+console.log(serverCfg.mongoURL);
+
+// 连接数据库
+mongoose.connect(serverCfg.mongoURL)
+
 app.listen(3000, function(err) {
   if (err) {
     return console.error(err);
   }
-
   console.log('Listening at http://localhost:3000/');
 })
