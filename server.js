@@ -1,8 +1,12 @@
-var path = require('path');
-var webpack = require('webpack');
-var express = require('express');
-var config = require('./webpack.config');
+var path = require('path')
+var webpack = require('webpack')
+var express = require('express')
+var config = require('./webpack.config')
 var routes = require('./server/routes/routes.js')
+
+var favicon = require('serve-favicon')
+var logger = require('morgan')
+var errorHandler = require('errorhandler')
 
 var app = express();
 var compiler = webpack(config);
@@ -14,16 +18,22 @@ app.use(require('webpack-dev-middleware')(compiler, {
 app.use(require('webpack-hot-middleware')(compiler));
 
 // 模板引擎
-app.set('views', './server/views/')
+app.set('views', path.join(__dirname, '/server/views/'))
 app.set('view engine', 'jade')
+
+// favicon
+// app.use(favicon())
+
+// logger 日志
+app.use(logger('dev'))
 
 // 路由
 app.use('/', routes);
 
-// app通用错误处理
-app.use(function(err, req, res, next) {
-  res.status(400).send("App ERR: file can't be found")
-})
+// 错误处理中间件应当在路由加载之后才能加载
+if ('development' == app.get('env')) {
+  app.use(errorHandler())
+}
 
 app.listen(3000, function(err) {
   if (err) {

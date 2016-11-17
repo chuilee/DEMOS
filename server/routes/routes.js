@@ -15,12 +15,16 @@ router.get('/:name', function(req, res, next) {
     dotfiles: 'deny',
     index: false,
     setHeaders: function(res, path, stat) {
-      res.set( 'x-timestamp', Date.now() )
-      res.set( 'x-sent', true )
+      res.set({
+        'x-timestamp': Date.now(),
+        'x-sent': true
+      })
     }
   }
 
   var filename = req.params.name
+
+  console.log(filename)
 
   res.sendFile(filename, options, function(err){
 
@@ -40,7 +44,7 @@ router.get('/jade/:name', function(req, res, next){
 
 // 错误处理
 router.use(function(err, req, res, next) {
-  res.status(400).send("Router ERR: file can't be found")
+  res.status(404).send("Router ERR: file can't be found")
 })
 
 module.exports = router;
