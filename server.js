@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var express = require('express');
 var config = require('./webpack.config');
-var routes = require('./src/routes.js')
+var routes = require('./server/routes/routes.js')
 
 var app = express();
 var compiler = webpack(config);
@@ -14,13 +14,16 @@ app.use(require('webpack-dev-middleware')(compiler, {
 app.use(require('webpack-hot-middleware')(compiler));
 
 // 模板引擎
-app.engine('jade', require('jade').__express)
-
-// 模板路径
-app.use(express.static(__dirname + '/server/views'));
+app.set('views', './server/views/')
+app.set('view engine', 'jade')
 
 // 路由
 app.use('/', routes);
+
+// app通用错误处理
+app.use(function(err, req, res, next) {
+  res.status(400).send("App ERR: file can't be found")
+})
 
 app.listen(3000, function(err) {
   if (err) {
