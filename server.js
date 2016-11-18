@@ -4,7 +4,7 @@ var config = require('./webpack.config')
 
 var serverCfg = require('./server/config.js')
 var express = require('express')
-var routes = require('./server/routes/routes.js')
+var routes = require('./server/routes/index.js')
 var favicon = require('serve-favicon')
 var logger = require('morgan')
 var errorHandler = require('errorhandler')

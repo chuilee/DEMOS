@@ -8,6 +8,10 @@ router.use(function timeLog(req, res, next) {
   next()
 })
 
+router.get('/', (req, res, next) => {
+  res.redirect('/register')
+})
+
 router.get('/register', function(req, res, next){
   User.count().exec((err, count) => {
     if(count > 0) {
@@ -25,6 +29,10 @@ router.get('/register', function(req, res, next){
       });
     }
   })
+
+  res.send('<h1>add success</h1>')
+
+  next()
 })
 
 // 错误处理
