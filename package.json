@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "FRONTEND DEMOS",
   "scripts": {
-    "start": "nodemon --ignore src/ server.js",
+    "start": "nodemon ENV=development --ignore src/ server.js",
     "lint": "eslint src"
   },
   "repository": {
