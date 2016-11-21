@@ -51,8 +51,11 @@
     "webpack-hot-middleware": "^2.10.0"
   },
   "dependencies": {
+    "dotenv": "^2.0.0",
     "errorhandler": "^1.5.0",
     "jade": "^1.11.0",
+    "keystone": "^4.0.0-beta.3",
+    "lodash": "^4.17.2",
     "mongoose": "^4.6.8",
     "morgan": "^1.7.0",
     "nodemon": "^1.11.0",
